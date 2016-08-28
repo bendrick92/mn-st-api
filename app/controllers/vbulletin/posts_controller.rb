@@ -30,7 +30,7 @@ class Vbulletin::PostsController < ApplicationController
                         
                         counter += 1
 
-                        if posts.length >= 3
+                        if posts.length >= 10
                             stop = true
                         end
                     end
