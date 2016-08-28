@@ -1,3 +1,3 @@
 class PostSerializer < ActiveModel::Serializer
-    attributes :vbulletin_post_id, :author, :content, :submit_date
+    attributes :id, :vbulletin_post_id, :author, :content, :submit_date
 end
