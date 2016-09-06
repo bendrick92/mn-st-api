@@ -1,7 +1,6 @@
-class Post
+class Vbulletin::Post
     extend ActiveModel::Naming
     include ActiveModel::Model
-    include ActiveModel::Serialization
 
     attr_accessor :id
     attr_accessor :vbulletin_post_id

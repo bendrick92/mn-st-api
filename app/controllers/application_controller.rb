@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
                 :errors => [
                     {
                         :status => "422",
-                        :source => "/v1/topics",
+                        :source => request.fullpath.to_s,
                         :title => "missing-parameter",
                         :detail => "URL parameter could not be found and is required"
                     }

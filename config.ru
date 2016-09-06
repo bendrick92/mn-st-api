@@ -8,5 +8,6 @@ use Rack::Cors do
     allow do
         origins '*'
         resource '/vbulletin/*', :headers => :any, :methods => :get
+        resource '/facebook/*', :headers => :any, :methods => :get
     end
 end
