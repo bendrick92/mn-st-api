@@ -5,7 +5,7 @@ json.feed do
         json.name               post.name
         json.created_time       post.created_time
         json.from               post.from
-        json.link               post.link
+        json.post_link          post.post_link
         json.picture            post.picture
         json.message            post.message
         json.post_type               post.type

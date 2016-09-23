@@ -6,8 +6,9 @@ class Facebook::Post
     attr_accessor :name
     attr_accessor :created_time
     attr_accessor :from
-    attr_accessor :link
+    attr_accessor :post_link
     attr_accessor :picture
+    attr_accessor :full_picture
     attr_accessor :message
     attr_accessor :type
     attr_accessor :comments
@@ -18,8 +19,9 @@ class Facebook::Post
         self.name = ""
         self.created_time = nil
         self.from = nil
-        self.link = ""
+        self.post_link = ""
         self.picture = ""
+        self.full_picture = ""
         self.message = ""
         self.type = ""
         self.comments = []

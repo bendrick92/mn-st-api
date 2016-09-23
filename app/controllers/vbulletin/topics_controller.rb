@@ -1,29 +1,33 @@
 require 'vbulletin_scraper'
 
-class Vbulletin::TopicController < ApplicationController
+class Vbulletin::TopicsController < ApplicationController
     public
         def index
             if params[:url].present?
                 url = params[:url]
-                
+                currPageNumber = 9999
+                stop = false
+                topicCounter = 1
+                forumCounter = 1
+                postCounter = 1
+                quoteCounter = 1
+
                 topicScraper = VbulletinScraper::V4::TopicScraper.new(url)
 
                 @topic = Vbulletin::Topic.new
+                @topic.id = topicCounter
                 @topic.title = topicScraper.get_topic_title
                 @topic.url = topicScraper.get_topic_url
 
                 forumScraper = VbulletinScraper::V4::ForumScraper.new(url)
 
                 forum = Vbulletin::Forum.new
+                forum.id = forumCounter
                 forum.is_vbulletin = forumScraper.is_valid_vbulletin
                 forum.vbulletin_version = forumScraper.get_vbulletin_version
                 forum.title = forumScraper.get_forum_title
                 forum.url = forumScraper.get_forum_url
                 @topic.forum = forum
-
-                stop = false
-                currPageNumber = 9999
-                counter = 1
 
                 until stop do
                     currPageUrl = url + '?page=' + currPageNumber.to_s
@@ -34,15 +38,30 @@ class Vbulletin::TopicController < ApplicationController
                         postScraper = VbulletinScraper::V4::PostScraper.new(postContent.to_s)
 
                         post = Vbulletin::Post.new
-                        post.id = counter
+                        post.id = postCounter
                         post.vbulletin_post_id = postScraper.get_vbulletin_post_id
                         post.author = postScraper.get_post_author
-                        post.content = postScraper.get_post_content
+                        post.post_content = postScraper.get_post_content
                         post.submit_date = postScraper.get_post_submit_datetime
                         
+                        quotes = postScraper.get_quotes
+
+                        quotes.each do |quoteContent|
+                            quoteScraper = VbulletinScraper::V4::QuoteScraper.new(quoteContent.to_s)
+
+                            quote = Vbulletin::Quote.new
+                            quote.id = quoteCounter
+                            quote.author = quoteScraper.get_quote_author
+                            quote.quote_content = quoteScraper.get_quote_content
+
+                            post.quotes << quote
+
+                            quoteCounter += 1
+                        end
+
                         @topic.posts << post
                         
-                        counter += 1
+                        postCounter += 1
 
                         if @topic.posts.length >= 10
                             stop = true

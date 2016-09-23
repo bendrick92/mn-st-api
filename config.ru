@@ -9,5 +9,6 @@ use Rack::Cors do
         origins '*'
         resource '/vbulletin/*', :headers => :any, :methods => :get
         resource '/facebook/*', :headers => :any, :methods => :get
+        resource '/poly/*', :headers => :any, :methods => :get
     end
 end

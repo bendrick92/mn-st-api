@@ -2,7 +2,7 @@ require 'koala'
 require 'hashie'
 require 'json'
 
-class Facebook::FeedController < ApplicationController
+class Facebook::FeedsController < ApplicationController
     public
         def index
             if (params[:access_token].present? && params[:group_id].present? && params[:fields].present?)
@@ -28,7 +28,7 @@ class Facebook::FeedController < ApplicationController
                     user.name = postMash.from.name
                     post.from = user
 
-                    post.link = postMash.link
+                    post.post_link = postMash.link
                     post.picture = postMash.picture
                     post.message = postMash.message
                     post.type = postMash.type

@@ -14,6 +14,11 @@ json.topic do
         json.submit_date        post.submit_date
         json.vbulletin_post_id  post.vbulletin_post_id
         json.author             post.author
-        json.content            post.content
+        json.post_content       post.post_content
+        json.quotes post.quotes do |quote|
+            json.id                     quote.id
+            json.author                 quote.author
+            json.quote_content          quote.quote_content
+        end
     end
 end
