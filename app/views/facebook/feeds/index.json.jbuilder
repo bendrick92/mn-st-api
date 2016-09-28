@@ -13,6 +13,11 @@ json.feed do
             json.id                 comment.id
             json.from               comment.from
             json.message            comment.message
+            json.comments comment.comments do |commentComment|
+                json.id                 commentComment.id
+                json.from               commentComment.from
+                json.message            commentComment.message
+            end
         end
         json.likes post.likes do |like|
             json.id                 like.id

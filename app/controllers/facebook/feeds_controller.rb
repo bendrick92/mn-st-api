@@ -45,6 +45,22 @@ class Facebook::FeedsController < ApplicationController
                             comment.from = user
                             comment.message = postComment.message
 
+                            if postComment.comments
+                                postComment.comments.data.each do |postCommentComment|
+                                    commentComment = Facebook::Comment.new
+                                    commentComment.id = postCommentComment.id
+                                    
+                                    commentCommentUser = Facebook::User.new
+                                    commentCommentUser.id = postCommentComment.from.id
+                                    commentCommentUser.name = postCommentComment.from.name
+
+                                    commentComment.from = commentCommentUser
+                                    commentComment.message = postCommentComment.message
+
+                                    comment.comments << commentComment
+                                end
+                            end
+
                             post.comments << comment
                         end
                     end

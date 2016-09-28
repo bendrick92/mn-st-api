@@ -12,7 +12,7 @@ class Poly::PostsController < ApplicationController
             # MN STs Facebook Group Feed
             accessToken = '1333570303337296%7CssnHtq9p3DuFAxX23XRx7Dc1reQ'
             groupId = '604231966385537'
-            fields = ['id','name','created_time','type','link','picture','full_picture','message','from','comments','likes']
+            fields = ['id','name','created_time','type','link','picture','full_picture','message','from','comments{id,from,message,comments{id,from,message}}','likes']
 
             graphObj = Koala::Facebook::API.new(accessToken)
             mnStPostHashes = graphObj.get_connection(groupId, 'feed', { limit: 10, fields: fields })
@@ -46,6 +46,22 @@ class Poly::PostsController < ApplicationController
 
                         facebookComment.from = facebookUser
                         facebookComment.message = mnStPostComment.message
+
+                        if mnStPostComment.comments
+                            mnStPostComment.comments.data.each do |mnStPostCommentComment|
+                                commentComment = Facebook::Comment.new
+                                commentComment.id = mnStPostCommentComment.id
+                                
+                                commentCommentUser = Facebook::User.new
+                                commentCommentUser.id = mnStPostCommentComment.from.id
+                                commentCommentUser.name = mnStPostCommentComment.from.name
+
+                                commentComment.from = commentCommentUser
+                                commentComment.message = mnStPostCommentComment.message
+
+                                facebookComment.comments << commentComment
+                            end
+                        end
 
                         facebookPost.comments << facebookComment
                     end
