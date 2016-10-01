@@ -10,6 +10,7 @@ class Vbulletin::Post
     attr_accessor :forum
     attr_accessor :topic
     attr_accessor :quotes
+    attr_accessor :post_permalink
 
     def initialize
         self.id = 0
@@ -20,5 +21,6 @@ class Vbulletin::Post
         self.forum = nil
         self.topic = nil
         self.quotes = []
+        self.post_permalink = ""
     end
 end

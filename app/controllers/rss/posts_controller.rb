@@ -3,7 +3,7 @@ require 'hashie'
 require 'json'
 require 'vbulletin_scraper'
 
-class Poly::PostsController < ApplicationController
+class Rss::PostsController < ApplicationController
     public
         def index
             @posts = []

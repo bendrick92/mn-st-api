@@ -8,6 +8,7 @@ json.posts do
                 json.name               post.facebook_post.name
                 json.created_time       post.facebook_post.created_time
                 json.from               post.facebook_post.from
+                json.permalink_url      post.facebook_post.permalink_url
                 json.post_link          post.facebook_post.post_link
                 json.picture            post.facebook_post.picture
                 json.full_picture       post.facebook_post.full_picture
@@ -32,6 +33,7 @@ json.posts do
         json.vbulletin_post do
             if post.vbulletin_post
                 json.id                     post.vbulletin_post.id
+                json.post_permalink         post.vbulletin_post.post_permalink
                 json.vbulletin_post_id      post.vbulletin_post.vbulletin_post_id
                 json.author                 post.vbulletin_post.author
                 json.post_content           post.vbulletin_post.post_content

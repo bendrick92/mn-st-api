@@ -12,5 +12,9 @@ Rails.application.routes.draw do
   namespace :poly, defaults: { format: :json } do
     get 'posts' => 'posts#index'
   end
+
+  namespace :rss, defaults: { format: :rss } do
+    get 'posts' => 'posts#index'
+  end
 end
 

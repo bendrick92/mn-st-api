@@ -13,6 +13,7 @@ class Facebook::Post
     attr_accessor :type
     attr_accessor :comments
     attr_accessor :likes
+    attr_accessor :permalink_url
 
     def initialize
         self.id = 0
@@ -26,5 +27,6 @@ class Facebook::Post
         self.type = ""
         self.comments = []
         self.likes = []
+        self.permalink_url = ""
     end
 end
