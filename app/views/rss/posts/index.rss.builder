@@ -2,7 +2,7 @@ xml.instruct! :xml, :version => "1.0"
 xml.rss :version => "2.0" do
     xml.channel do
         xml.title "MN STs - Latest Posts"
-        xml.link "http://www.mnstoc/posts"
+        xml.link "http://www.mnstoc.com/posts"
         xml.description "Aggregated posts from the MN STs Facebook group and associated forum threads"
         xml.language "en"
 
