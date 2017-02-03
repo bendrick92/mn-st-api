@@ -234,15 +234,17 @@ class Poly::PostsController < ApplicationController
                         vbulletinQuoteCounter += 1
                     end
 
-                    post = Poly::Post.new
-                    post.id = postCounter
-                    post.post_type = 'vbulletin'
-                    post.vbulletin_post = vbulletinPost
+                    if vbulletinPost.submit_date != nil
+                        post = Poly::Post.new
+                        post.id = postCounter
+                        post.post_type = 'vbulletin'
+                        post.vbulletin_post = vbulletinPost
 
-                    @posts << post
-                    postCounter += 1
+                        @posts << post
+                        postCounter += 1
 
-                    vbulletinPostCounter += 1
+                        vbulletinPostCounter += 1
+                    end
 
                     if vbulletinPostCounter >= 10
                         stop = true
