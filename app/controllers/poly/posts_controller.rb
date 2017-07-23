@@ -10,8 +10,8 @@ class Poly::PostsController < ApplicationController
             postCounter = 1
             
             # MN STs Facebook Group Feed
-            accessToken = 'EAAS84Ag2o1ABAMwMK18scyhJ4jkfQknY7x5YqdhtqL0aGZCnw7ryiFnixAnqxQIPcJDupHRmEtujBccj9HA6o2w8TmbZCcnZB4ZCHlRVmB8HndzwZByPYqdaffsY2ZAkghipsLbXRlv7UM6SIjPKZBUw99OxniqzSZCMpZCZARpvWB1wZDZD'
-            groupId = 'mnsts'
+            accessToken = 'EAAS84Ag2o1ABAGMoYidObnhTu9OBkbhkIF1gqfwwhBngdH4RvFkqqkxhsyiVZBqdnHZBGxvhQ1ZAlnMHyVYJ1WEXvczaxOQ0OhcAY4g4vrRuo9DcM0dabd9bSqZBZAiZAYrz6q0Uszoww7KkbHFBWVr4ug1AdfIJk7gLMxhUF3HJN4ZBiNtcDnG'
+            groupId = '604231966385537'
             fields = ['id','name','created_time','type','link','picture','full_picture','message','from','comments{id,from,message,attachment,comments{id,from,message,attachment}}','likes','permalink_url','attachments']
             attachmentCounter = 1
 
