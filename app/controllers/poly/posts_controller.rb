@@ -10,8 +10,8 @@ class Poly::PostsController < ApplicationController
             postCounter = 1
             
             # MN STs Facebook Group Feed
-            accessToken = '1333570303337296%7CssnHtq9p3DuFAxX23XRx7Dc1reQ'
-            groupId = '604231966385537'
+            accessToken = 'EAAS84Ag2o1ABAMwMK18scyhJ4jkfQknY7x5YqdhtqL0aGZCnw7ryiFnixAnqxQIPcJDupHRmEtujBccj9HA6o2w8TmbZCcnZB4ZCHlRVmB8HndzwZByPYqdaffsY2ZAkghipsLbXRlv7UM6SIjPKZBUw99OxniqzSZCMpZCZARpvWB1wZDZD'
+            groupId = 'mnsts'
             fields = ['id','name','created_time','type','link','picture','full_picture','message','from','comments{id,from,message,attachment,comments{id,from,message,attachment}}','likes','permalink_url','attachments']
             attachmentCounter = 1
 
@@ -174,90 +174,6 @@ class Poly::PostsController < ApplicationController
                 
                 @posts << post
                 postCounter += 1
-            end
-
-            # Minnesota ST Owners vBulletin Thread
-            url = 'http://www.focusst.org/forum/midwest-st-owners/6774-minnesota-st-owners.html'
-            currPageNumber = 9999
-            stop = false
-            vbulletinTopicCounter = 1
-            vbulletinForumCounter = 1
-            vbulletinPostCounter = 1
-            vbulletinQuoteCounter = 1
-
-            mnStTopicScraper = VbulletinScraper::V4::TopicScraper.new(url)
-
-            vbulletinTopic = Vbulletin::Topic.new
-            vbulletinTopic.id = vbulletinTopicCounter
-            vbulletinTopic.title = mnStTopicScraper.get_topic_title
-            vbulletinTopic.url = mnStTopicScraper.get_topic_url
-
-            mnStForumScraper = VbulletinScraper::V4::ForumScraper.new(url)
-
-            vbulletinForum = Vbulletin::Forum.new
-            vbulletinForum.id = vbulletinForumCounter
-            vbulletinForum.is_vbulletin = mnStForumScraper.is_valid_vbulletin
-            vbulletinForum.vbulletin_version = mnStForumScraper.get_vbulletin_version
-            vbulletinForum.title = mnStForumScraper.get_forum_title
-            vbulletinForum.url = mnStForumScraper.get_forum_url
-
-            until stop do
-                currPageUrl = url + '?page=' + currPageNumber.to_s
-                currPageScraper = VbulletinScraper::V4::TopicScraper.new(currPageUrl)
-                currPagePosts = currPageScraper.get_posts
-
-                currPagePosts.each do |vbulletinPostContent|
-                    vbulletinPostScraper = VbulletinScraper::V4::PostScraper.new(vbulletinPostContent.to_s)
-
-                    vbulletinPost = Vbulletin::Post.new
-                    vbulletinPost.id = vbulletinPostCounter
-                    vbulletinPost.vbulletin_post_id = vbulletinPostScraper.get_vbulletin_post_id
-                    vbulletinPost.author = vbulletinPostScraper.get_post_author
-                    vbulletinPost.post_content = vbulletinPostScraper.get_post_content
-                    vbulletinPost.submit_date = vbulletinPostScraper.get_post_submit_datetime
-                    vbulletinPost.post_permalink = vbulletinPostScraper.get_post_permalink
-                    vbulletinPost.forum = vbulletinForum
-                    vbulletinPost.topic = vbulletinTopic
-                    
-                    vbulletinQuotes = vbulletinPostScraper.get_quotes
-
-                    vbulletinQuotes.each do |vbulletinQuoteContent|
-                        vbulletinQuoteScraper = VbulletinScraper::V4::QuoteScraper.new(vbulletinQuoteContent.to_s)
-
-                        vbulletinQuote = Vbulletin::Quote.new
-                        vbulletinQuote.id = vbulletinQuoteCounter
-                        vbulletinQuote.author = vbulletinQuoteScraper.get_quote_author
-                        vbulletinQuote.quote_content = vbulletinQuoteScraper.get_quote_content
-
-                        vbulletinPost.quotes << vbulletinQuote
-
-                        vbulletinQuoteCounter += 1
-                    end
-
-                    if vbulletinPost.submit_date != nil
-                        post = Poly::Post.new
-                        post.id = postCounter
-                        post.post_type = 'vbulletin'
-                        post.vbulletin_post = vbulletinPost
-
-                        @posts << post
-                        postCounter += 1
-
-                        vbulletinPostCounter += 1
-                    end
-
-                    if vbulletinPostCounter >= 10
-                        stop = true
-                    end
-                end
-
-                currPageNumber = currPageScraper.get_current_page_number
-
-                if currPageNumber > 1
-                    currPageNumber -= 1
-                else
-                    stop = true
-                end
             end
 
             @posts.sort! { |a,b| b.get_submit_date <=> a.get_submit_date }
